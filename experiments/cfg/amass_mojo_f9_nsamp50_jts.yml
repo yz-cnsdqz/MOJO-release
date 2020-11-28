@@ -1,0 +1,40 @@
+nz: 16
+t_his: 15
+t_pred: 45
+lambda_v: 0
+lambda_tf: 3
+beta: 1
+dataset:
+  - CMU
+  - MPI_HDM05
+body_repr: joints
+vae_specs:
+  rnn_type: gru
+  x_birnn: false
+  e_birnn: false
+  use_drnn_mlp: true
+  residual: true
+  freqbasis: 'dct'
+robustkl: true
+vae_lr: 1.e-3
+batch_size: 64
+num_vae_epoch: 500
+num_vae_epoch_fix: 100
+num_vae_data_sample: 5000
+
+nk: 50
+dlow_batch_size: 32
+d_scale: 100
+lambda_j: 25
+lambda_recon: 2.0
+dlow_lr: 1.e-4
+dlow_specs:
+  model_name: NFDiag
+  rnn_type: gru
+  nh_mlp: [1024, 512]
+  x_birnn: false
+  n_freq: 9
+  freq_separate: True
+num_dlow_epoch: 500
+num_dlow_epoch_fix: 100
+num_dlow_data_sample: 1000
