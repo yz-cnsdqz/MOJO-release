@@ -1,6 +1,86 @@
-# DLow: **D**iversifying **L**atent FL**ow**s
-![Loading DLow Overview](data/overview.png "DLow Overview")
----
+# We are **MO**re than our **JO**ints: Predicting How 3D Bodies Move
+
+
+This repo contains the official implementation of our paper:
+```
+@inproceedings{Zhang:CVPR:2021,
+  title = {We are More than Our Joints: Predicting how {3D} Bodies Move},
+  author = {Zhang, Yan and Black, Michael J. and Tang, Siyu},
+  booktitle = {Proceedings IEEE/CVF Conf.~on Computer Vision and Pattern Recognition (CVPR)},
+  month = jun,
+  year = {2021},
+  month_numeric = {6}
+}
+```
+
+## License 
+
+todo
+
+## Environment
+* **Tested OS:** Linux Ubuntu 18.04
+* **Packages:**
+    * Python >= 3.6
+    * [PyTorch](https://pytorch.org) >= 1.2
+    * Tensorboard
+* **Note**: All scripts should be run from the root of this repo to avoid path issues. 
+Also, please fix some path configs in the code, otherwise errors will occur.
+
+
+## Datasets
+In MOJO, we have used [AMASS](https://amass.is.tue.mpg.de/), [Human3.6M](http://vision.imar.ro/human3.6m/description.php), and [HumanEva](http://humaneva.is.tue.mpg.de/).
+
+For **Human3.6M** and **HumanEva**, we follow the same pre-processing step as in [DLow](), [VideoPose3D](https://github.com/facebookresearch/VideoPose3D), and others. Please
+refer to their pages, e.g. [this one](https://github.com/facebookresearch/VideoPose3D/blob/master/DATASETS.md), for details.
+
+For **AMASS**, we perform canonicalization of motion sequences with our own procedures. The details are in `experiments/utils_canonicalize_amass.py`.
+We find this sequence canonicalization procedure is important.
+
+
+
+## Models
+For human body modeling, we employ the [SMPL-X](https://smpl-x.is.tue.mpg.de/) parametric body model. You need to follow their license and download.
+Based on SMPL-X, we can use the body joints or a sparse set of body mesh vertices (the body markers) to represent the body. 
+* **CMU** It has 41 markers, the corresponding SMPL-X mesh vertex ID can be downloaded [here]().
+* **SSM2** It has 64 markers, the corresponding SMPL-X mesh vertex ID can be downloaded [here]().
+* **Joints** We used 22 joints. No need to download, but just obtain them from the SMPL-X body model. See details in the code.
+
+
+Our CVAE model configurations are in `experiments/cfg`. The pre-trained checkpoints can be downloaded [here]()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_______
+
+
+
+
+
 This repo contains the official implementation of our paper:
 
 DLow: Diversifying Latent Flows for Diverse Human Motion Prediction

@@ -7,11 +7,9 @@ import numpy as np
 from tqdm import tqdm
 import torch
 import smplx
-from sklearn.neighbors import NearestNeighbors
 from scipy.spatial.transform import Rotation as R
-from scipy.ndimage import gaussian_filter1d
 import json
-import pdb
+
 
 
 '''
@@ -73,30 +71,37 @@ def get_body_model(type, gender, batch_size,device='cpu'):
 
 
 
-#### set input output dataset paths
+## set input output dataset paths
 amass_dataset_path = '/mnt/hdd/datasets/AMASS/data'
-amass_smplx_path = '/home/yzhang/Videos/AMASS-Canonicalized/data'
+output_dataset_path = '/home/yzhang/Videos/AMASS-Canonicalized/data'
 amass_subsets = [x for x in os.listdir(amass_dataset_path)
                     if os.path.isdir(amass_dataset_path+'/'+x)]
 
-#### set subsequence length
+
+## set subsequence length
 len_subseq = 480 # 4seconds if 120fps
+
 
 ## set mosh markers
 ## read the corresponding smplx verts indices as markers.
 with open('/home/yzhang/body_models/Mosh_related/CMU.json') as f:
         marker_cmu_41 = list(json.load(f)['markersets'][0]['indices'].values())
 
+with open('/home/yzhang/body_models/Mosh_related/SSM2.json') as f:
+        marker_ssm_67 = list(json.load(f)['markersets'][0]['indices'].values())
+
+
 
 #### main loop to each subset in AMASS
 for subset in amass_subsets:
     seqs = glob.glob(os.path.join(amass_dataset_path, subset, '*/*.npz'))
-    outfolder = os.path.join(amass_smplx_path, subset)
+    outfolder = os.path.join(output_dataset_path, subset)
     if not os.path.exists(outfolder):
         os.makedirs(outfolder)
     print('-- processing subset {:s}'.format(subset))
 
     index_subseq = 0 # index subsequences for subsets separately
+
 
     #### main loop to process each sequence
     for seq in tqdm(seqs):
@@ -140,6 +145,7 @@ for subset in amass_subsets:
             pose[:,:3] = R.from_dcm(global_ori_new).as_rotvec()
             ### get new transl
             transl = np.einsum('ij,tj->ti', transf_rotmat.T, transl-transf_transl)
+            ### push to the result placeholder
             data_out['transf_rotmat'] = transf_rotmat
             data_out['transf_transl'] = transf_transl
             data_out['trans'] = transl
@@ -149,7 +155,7 @@ for subset in amass_subsets:
             data_out['mocap_framerate'] = data['mocap_framerate']
 
             ## under this new amass coordinate, extract the joints/markers' locations
-            ## when getting generated joints/markers, perform IK, get smplx params, and transform back to world coord
+            ## when get generated joints/markers, perform IK, get smplx params, and transform back to world coord
             body_param = {}
             body_param['transl'] = torch.FloatTensor(transl).cuda()
             body_param['global_orient'] = torch.FloatTensor(pose[:,:3]).cuda()
@@ -159,8 +165,10 @@ for subset in amass_subsets:
             ### extract joints and markers
             joints = smplxout.joints[:,:22,:].detach().squeeze().cpu().numpy()
             markers_41 = smplxout.vertices[:,marker_cmu_41,:].detach().squeeze().cpu().numpy()
+            markers_67 = smplxout.vertices[:,marker_ssm_67,:].detach().squeeze().cpu().numpy()
             data_out['joints'] = joints
             data_out['marker_cmu_41'] = markers_41
+            data_out['marker_ssm2_67'] = markers_67
 
             np.savez(outfilename, **data_out)
             t = t+len_subseq

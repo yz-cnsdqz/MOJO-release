@@ -163,4 +163,4 @@ def get_dlow_model(cfg, traj_dim):
     model_name = specs.get('model_name', 'NFDiag')
     if model_name == 'NFDiag':
         return NFDiag(traj_dim, cfg.nz, cfg.nk, specs)
-    
+

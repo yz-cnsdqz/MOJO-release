@@ -39,7 +39,7 @@ def visualize(data, outfile_path=None, datatype='gt',seq=0,gen=0):
 
     ## create body mesh from data
     ball_list = []
-    for i in range(41):
+    for i in range(num_markers):
         ball = o3d.geometry.TriangleMesh.create_sphere(radius=0.02)
         vis.add_geometry(ball)
         vis.poll_events()
@@ -69,11 +69,6 @@ def visualize(data, outfile_path=None, datatype='gt',seq=0,gen=0):
         # ball_list[3].paint_uniform_color(color_hex2rgb('#b25d48'))
         # ball_list[18].paint_uniform_color(color_hex2rgb('#749a83'))
 
-        # if it in [0,15,30,45,59]:
-        #     # o3d.visualization.draw_geometries([limb_lines]+ball_list)
-        #     # o3d.io.write_line_set('tmp_seq20_gen0_lineset_frame35.ply', limb_lines)
-        #     for i, b in enumerate(ball_list):
-        #         o3d.io.write_triangle_mesh('tmp_seq{}_gen{}_kps{}_frame{}.ply'.format(seq,gen,i,it), b)
 
         ## update camera.
         ctr = vis.get_view_control()
@@ -118,6 +113,8 @@ if __name__=='__main__':
             ]
     for exp in exps:
         results_file_name = proj_path+'/results/{}/results/seq_gen_seed1_optim/ACCAD/results_marker_41.pkl'.format(exp)
+        
+        num_markers = int(os.path.basename(results_file_name).split('.')[0].split('_')[-1])
         print('-- processing: '+results_file_name)
         with open(results_file_name, 'rb') as f:
             data = pickle.load(f)

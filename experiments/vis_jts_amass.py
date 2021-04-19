@@ -53,7 +53,7 @@ def visualize(data, outfile_path=None, datatype='gt'):
         for i,b in enumerate(ball_list):
             b.translate(data[it,i], relative=False)
             vis.update_geometry(b)
-        # pdb.set_trace()
+
         ## plot limbs
         limb_lines.points = o3d.utility.Vector3dVector(data[it, [1,4,7,2,5,8,16,18,20,17,19,21]])
         limb_lines.colors = o3d.utility.Vector3dVector(np.zeros([8,3]))
@@ -68,7 +68,6 @@ def visualize(data, outfile_path=None, datatype='gt'):
         lines.append(np.array([10, 11]))
         limb_lines.lines = o3d.utility.Vector2iVector(np.stack(lines,axis=0))
         vis.update_geometry(limb_lines)
-
 
         if it <15:
             for ball in ball_list:

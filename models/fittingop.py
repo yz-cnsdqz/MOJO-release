@@ -139,6 +139,11 @@ class FittingOP:
         if fittingconfig['num_markers'] == 41:
             with open('/home/yzhang/body_models/Mosh_related/CMU.json') as f:
                 self.marker = list(json.load(f)['markersets'][0]['indices'].values())
+        elif fittingconfig['num_markers'] == 67:
+            with open('/home/yzhang/body_models/Mosh_related/SSM2.json') as f:
+                self.marker = list(json.load(f)['markersets'][0]['indices'].values())
+
+
 
     def set_motion_model(self, model):
         self.motion_model = copy.deepcopy(model)
@@ -168,7 +173,7 @@ class FittingOP:
 
     def calc_loss(self, betas, verts_gt, stage):
         '''
-        verts_gt: [t, 41, 3]
+        verts_gt: [t, num_markers, 3]
         '''
         body_param = {}
         body_param['transl'] = self.transl_rec
@@ -192,7 +197,7 @@ class FittingOP:
     def fitting_subloop(self, gender, betas,
                         prev_transl, prev_glorot, prev_pose, prev_handpose,
                         curr_markers):
-        verts_gt = curr_markers.view(-1,41,3)
+        verts_gt = curr_markers.view(-1,self.num_markers,3)
         self.transl_rec.data = prev_transl.detach().clone()
         self.glo_rot_rec.data = prev_glorot.detach().clone()
         self.vpose_rec.data = prev_pose.detach().clone()
@@ -213,7 +218,7 @@ class FittingOP:
         glorot_out = self.glo_rot_rec.detach().clone()
         pose_out = self.vpose_rec.detach().clone()
         hand_pose_out = self.hand_pose.detach().clone()
-        verts_out = verts.detach().clone().view(-1, 41*3)
+        verts_out = verts.detach().clone().view(-1, self.num_markers*3)
         return verts_out, transl_out, glorot_out, pose_out, hand_pose_out
 
 

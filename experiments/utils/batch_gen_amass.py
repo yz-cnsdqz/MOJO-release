@@ -16,8 +16,8 @@ class BatchGeneratorAMASSCanonicalized(object):
     def __init__(self,
                 amass_data_path,
                 amass_subset_name=None,
-                sample_rate=2, #fps = 120/sample_rate,
-                body_repr='smpl_params' #['smpl_params', 'marker_41', 'joints']
+                sample_rate=2, 
+                body_repr='smpl_params' #['smpl_params', 'marker_41', 'marker_67', 'joints']
                 ):
         self.rec_list = list()
         self.index_rec = 0
@@ -30,7 +30,7 @@ class BatchGeneratorAMASSCanonicalized(object):
     def reset(self):
         self.index_rec = 0
         random.shuffle(self.data_list)
-        if self.body_repr in ['joints', 'marker_41']:
+        if self.body_repr in ['joints', 'marker_41', 'marker_67']:
             np.random.shuffle(self.data_all)
 
     def has_next_rec(self):
@@ -64,10 +64,9 @@ class BatchGeneratorAMASSCanonicalized(object):
             if np.isnan(pose).any() or np.isinf(pose).any() or np.isnan(transl).any() or np.isinf(transl).any():
                 continue
             body_marker_41 = np.load(rec)['marker_cmu_41'][::self.sample_rate].reshape([-1,41*3])
-            # betas = np.tile(np.load(rec)['betas'][:10].reshape(1,-1), (body_marker_41.shape[0], 1))
+            body_marker_67 = np.load(rec)['marker_ssm2_67'][::self.sample_rate].reshape([-1,67*3])
             joints = np.load(rec)['joints'][::self.sample_rate].reshape([-1,22*3])
-            # gender = np.zeros([body_marker_41.shape[0],1]) if np.load(rec)['gender'] == 'male' else np.zeros([body_marker_41.shape[0],1])
-
+            
             body_feature = {}
             if self.body_repr == 'smpl_params':
                 body_feature['transl'] = transl
@@ -76,11 +75,13 @@ class BatchGeneratorAMASSCanonicalized(object):
                 body_feature = joints
             elif self.body_repr == 'marker_41':
                 body_feature = body_marker_41
+            elif self.body_repr == 'marker_67':
+                body_feature = body_marker_67
             else:
                 raise NameError('[ERROR] not valid body representation. Terminate')
             self.data_list.append(body_feature)
 
-        if self.body_repr in ['joints', 'marker_41']:
+        if self.body_repr in ['joints', 'marker_41', 'marker_67']:
             self.data_all = np.stack(self.data_list,axis=0) #[b,t,d]
 
 
@@ -134,6 +135,7 @@ class BatchGeneratorAMASSCanonicalized(object):
             return None
         body_shape = np.load(rec)['betas'][:10]
         body_marker_41 = np.load(rec)['marker_cmu_41'][::self.sample_rate]
+        body_marker_67 = np.load(rec)['marker_ssm2_67'][::self.sample_rate]
         joints = np.load(rec)['joints'][::self.sample_rate]
 
         body_feature = {}
@@ -144,6 +146,8 @@ class BatchGeneratorAMASSCanonicalized(object):
             body_feature = joints.reshape([-1,22*3])
         elif self.body_repr == 'marker_41':
             body_feature = body_marker_41.reshape([-1,41*3])
+        elif self.body_repr == 'marker_67':
+            body_feature = body_marker_67.reshape([-1,67*3])
         else:
             raise NameError('[ERROR] not valid body representation. Terminate')
 
@@ -166,6 +170,8 @@ class BatchGeneratorAMASSCanonicalized(object):
             raise NameError('return list. No dim')
         elif self.body_repr == 'marker_41':
             return 41*3
+        elif self.body_repr == 'marker_67':
+            return 67*3
         elif self.body_repr == 'joints':
             return 22*3
         else:
@@ -187,10 +193,6 @@ if __name__=='__main__':
     print(data[0])
     data = batch_gen.next_batch(batch_size=64)
     print(data[0])
-
-
-
-
 
 
 

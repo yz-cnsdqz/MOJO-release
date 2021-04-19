@@ -55,7 +55,7 @@ def pred_with_proj(n_seqs, n_gens):
     n_gens: for each input sequence, how many different sequences to predict
     '''
     gen_results = {}
-    gen_results['gt_marker_41'] = []
+    gen_results['gt_marker'] = []
     gen_results['gt_smplx_params'] = []
     gen_results['betas'] = []
     gen_results['gender'] = []
@@ -70,7 +70,7 @@ def pred_with_proj(n_seqs, n_gens):
         ## prepare variables to save
         motion_np = data['body_feature']
         motion = torch.FloatTensor(motion_np).unsqueeze(0) #[b,t,d]
-        gen_results['gt_marker_41'].append(motion_np.reshape((1,motion_np.shape[0],-1,3)))
+        gen_results['gt_marker'].append(motion_np.reshape((1,motion_np.shape[0],-1,3)))
         smplx_transl = data['transl']
         smplx_glorot = data['glorot']
         smplx_poses = data['poses']
@@ -105,7 +105,7 @@ def pred_with_proj(n_seqs, n_gens):
             gen_results[algo].append(pred)
             gen_results[algo+'_smplx_params'].append(pred_params)
         idx+=1
-    gen_results['gt_marker_41'] = np.stack(gen_results['gt_marker_41'])
+    gen_results['gt_marker'] = np.stack(gen_results['gt_marker'])
     gen_results['gt_smplx_params'] = np.stack(gen_results['gt_smplx_params'])
 
     for algo in vis_algos[1:]: #load vae but dont use it.
@@ -197,6 +197,8 @@ if __name__ == '__main__':
     batch_gen.get_rec_list(shuffle_seed=3)
     all_data = batch_gen.get_all_data().detach().cpu().permute(1,0,2).numpy() #[b,t,d]
     traj_gt_arr = get_multimodal_gt()
+    n_markers = batch_gen.get_feature_dim()//3
+
 
     """models"""
     model_generator = {
@@ -205,7 +207,7 @@ if __name__ == '__main__':
     }
     models = {}
     for algo in algos:
-        models[algo] = model_generator[algo](cfg, 66)
+        models[algo] = model_generator[algo](cfg, n_markers*3)
         model_path = getattr(cfg, f"{algo}_model_path") % getattr(args, 'iter')
         print(f'loading {algo} model from checkpoint: {model_path}')
         model_cp = torch.load(model_path, map_location='cuda:0')
@@ -217,7 +219,7 @@ if __name__ == '__main__':
     fittingconfig={ 'init_lr_h': 0.008,
                     'num_iter': [10,30,20],
                     'batch_size': cfg.nk,
-                    'num_markers': 41,
+                    'num_markers': n_markers, 
                     'device': device,
                     'verbose': False
                 }
