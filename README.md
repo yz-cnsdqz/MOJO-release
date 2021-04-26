@@ -1,7 +1,8 @@
 # We are **MO**re than our **JO**ints: Predicting How 3D Bodies Move
 
 
-This repo contains the official implementation of our paper:
+## Citation
+This repo contains the official implementation of our paper MOJO:
 ```
 @inproceedings{Zhang:CVPR:2021,
   title = {We are More than Our Joints: Predicting how {3D} Bodies Move},
@@ -42,7 +43,7 @@ follows its [CMU license](https://github.com/Khrylx/DLow/blob/master/LICENSE).
 Also, please fix some path configs in the code, otherwise errors will occur.
 
 ### Training
-The training is split to two steps. Assuming we have a config file in `experiments/cfg/amass_mojo_f9_nsamp50.yml`, then
+The training is split to two steps. Provided we have a config file in `experiments/cfg/amass_mojo_f9_nsamp50.yml`, we can do
 * `python experiments/train_MOJO_vae.py --cfg amass_mojo_f9_nsamp50` to train the MOJO
 * `python experiments/train_MOJO_dlow.py --cfg amass_mojo_f9_nsamp50` to train the DLow
 
@@ -52,13 +53,12 @@ These `experiments/eval_*.py` files are for evaluation.
 For `eval_*_pred.py`, they can be used either to evaluate the results while predicting, or to save results to a file for further evaluation and visualization. An example is `python experiments/eval_kps_pred.py --cfg amass_mojo_f9_nsamp50 --mode vis`, which is to save files to the folder `results/amass_mojo_f9_nsamp50`.
 
 
-### Generating
+### Generation
 In MOJO, the recursive projection scheme is to get 3D bodies from markers and keep the body valid. The relevant implementation is mainly in `models/fittingop.py` and `experiments/test_recursive_proj.py`. An example to run is
 
 ```
 python experiments/test_recursive_proj.py --cfg amass_mojo_f9_nsamp50 --testdata ACCAD --gpu_index 0
 ```
-
 
 
 
