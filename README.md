@@ -88,7 +88,7 @@ Our CVAE model configurations are in `experiments/cfg`. The pre-trained checkpoi
 
 
 
-# Acknowledgement & Disclaimer
+## Acknowledgement & disclaimer
 We thank Nima Ghorbani for the advice on the body marker setting and the {\bf AMASS} dataset.
 We thank Yinghao Huang, Cornelia K\"{o}hler, Victoria Fern\'{a}ndez Abrevaya, and Qianli Ma for proofreading.
 We thank Xinchen Yan and Ye Yuan for discussions on baseline methods.
