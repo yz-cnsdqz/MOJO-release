@@ -35,6 +35,9 @@ follows its [CMU license](https://github.com/Khrylx/DLow/blob/master/LICENSE).
     * Python >= 3.6
     * [PyTorch](https://pytorch.org) >= 1.2
     * Tensorboard
+    * [smplx](https://pypi.org/project/smplx/)
+    * [vposer](https://github.com/nghorbani/human_body_prior)
+    * others
 * **Note**: All scripts should be run from the root of this repo to avoid path issues.
 Also, please fix some path configs in the code, otherwise errors will occur.
 
