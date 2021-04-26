@@ -288,3 +288,4 @@ class FittingOP:
         y_smplxparams = torch.cat([est_transl, est_glorot_aa, est_pose_aa,est_handpose],dim=-1)
         return y, y_smplxparams
 
+

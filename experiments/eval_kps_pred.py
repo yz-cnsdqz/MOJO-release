@@ -51,6 +51,7 @@ def get_prediction(data, algo, sample_num, num_seeds=1, concat_hist=True):
 
 def visualize(n_seqs, n_gens):
     '''
+    Actually this is just to generate files for visualization, rather than directly render them.
     n_seqs: how many sequences to generate
     n_gens: for each input sequence, how many different sequences to predict
     '''

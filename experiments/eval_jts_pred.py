@@ -129,8 +129,6 @@ def compute_stats(data=None, n_seq=60, n_gen=50):
 
 
 
-
-
 if __name__ == '__main__':
     all_algos = ['vae','dlow']
     parser = argparse.ArgumentParser()

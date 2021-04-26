@@ -37,13 +37,13 @@ def get_prediction(smplxparams, traj_np, algo, sample_num, num_seeds=1, concat_h
                                             gender, prev_betas,
                                             prev_transl, prev_glorot_cont,
                                             prev_pose_vp, prev_handpose)
-    if concat_hist:
-        Y = torch.cat((X, Y), dim=0)
-        smplxparams_pred = smplxparams_pred.detach().cpu().numpy()
-        smplxparams_his = np.tile(smplxparams_his, [1,cfg.nk, 1])
-        smplxparams = np.concatenate([smplxparams_his, smplxparams_pred])
-    Y = Y.permute(1, 0, 2).contiguous().detach().cpu().numpy() #[nk, time, dim]
-    smplxparams = smplxparams.transpose([1,0,2])
+        if concat_hist:
+            Y = torch.cat((X, Y), dim=0)
+            smplxparams_pred = smplxparams_pred.detach().cpu().numpy()
+            smplxparams_his = np.tile(smplxparams_his, [1,cfg.nk, 1])
+            smplxparams = np.concatenate([smplxparams_his, smplxparams_pred])
+        Y = Y.permute(1, 0, 2).contiguous().detach().cpu().numpy() #[nk, time, dim]
+        smplxparams = smplxparams.transpose([1,0,2])
 
     return Y, smplxparams
 
@@ -108,7 +108,7 @@ def pred_with_proj(n_seqs, n_gens):
     gen_results['gt_marker'] = np.stack(gen_results['gt_marker'])
     gen_results['gt_smplx_params'] = np.stack(gen_results['gt_smplx_params'])
 
-    for algo in vis_algos[1:]: #load vae but dont use it.
+    for algo in vis_algos[1:]:
         gen_results[algo] = np.stack(gen_results[algo]) #[#seq, #genseq_per_pastmotion, t, #joints, 3]
         gen_results[algo+'_smplx_params'] = np.stack(gen_results[algo+'_smplx_params'])
     ### save to file
@@ -121,14 +121,8 @@ def pred_with_proj(n_seqs, n_gens):
 
 
 
-def get_multimodal_gt():
-    all_start_pose = all_data[:,t_his - 1,:]
-    pd = squareform(pdist(all_start_pose))
-    traj_gt_arr = []
-    for i in range(pd.shape[0]):
-        ind = np.nonzero(pd[i] < args.multimodal_threshold)
-        traj_gt_arr.append(all_data[ind][:, t_his:, :])
-    return traj_gt_arr
+
+
 
 
 if __name__ == '__main__':
@@ -185,7 +179,6 @@ if __name__ == '__main__':
     subsets = cfg.dataset
     n_freq = cfg.dlow_specs.get('n_freq', None)
 
-
     """data"""
     testing_data = [args.testdata]
     if len(testing_data)>1:
@@ -196,7 +189,6 @@ if __name__ == '__main__':
                                                  body_repr=body_repr)
     batch_gen.get_rec_list(shuffle_seed=3)
     all_data = batch_gen.get_all_data().detach().cpu().permute(1,0,2).numpy() #[b,t,d]
-    traj_gt_arr = get_multimodal_gt()
     n_markers = batch_gen.get_feature_dim()//3
 
 
@@ -219,7 +211,7 @@ if __name__ == '__main__':
     fittingconfig={ 'init_lr_h': 0.008,
                     'num_iter': [10,30,20],
                     'batch_size': cfg.nk,
-                    'num_markers': n_markers, 
+                    'num_markers': n_markers,
                     'device': device,
                     'verbose': False
                 }
