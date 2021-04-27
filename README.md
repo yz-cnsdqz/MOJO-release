@@ -85,7 +85,11 @@ Our CVAE model configurations are in `experiments/cfg`. The pre-trained checkpoi
 
 
 
+## Related projects
 
+* [**AMASS**](https://amass.is.tue.mpg.de/): It unifies diverse motion capture data with the SMPL-H model, and provides a large-scale high-quality dataset. Its official codebase and tutorials are in this [github repo](https://github.com/nghorbani/amass).
+
+* [**GRAB**](https://ps.is.tuebingen.mpg.de/publications/grab-2020): Most mocap data only contains the body motion. GRAB, however, provides high-quality data of human-object interactions. Besides capturing the body motion, the object motion and the hand-object contact are captured simultaneously. More demonstrations are in its [github repo](https://github.com/otaheri/GRAB).
 
 
 ## Acknowledgement & disclaimer
