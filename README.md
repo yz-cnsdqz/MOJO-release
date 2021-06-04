@@ -1,4 +1,4 @@
-# We are **MO**re than our **JO**ints: <br>Predicting How 3D Bodies Move</br>
+# We are **M**ore than **O**ur **JO**ints: <br>Predicting How 3D Bodies Move</br>
 
 
 ## Citation
