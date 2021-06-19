@@ -1,5 +1,6 @@
 # We are **M**ore than **O**ur **JO**ints: Predicting How 3D Bodies Move
 
+[project page](https://yz-cnsdqz.github.io/MOJO/MOJO.html)
 
 ## Citation
 This repo contains the official implementation of our paper MOJO:
