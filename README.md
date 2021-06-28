@@ -38,7 +38,7 @@ follows its [CMU license](https://github.com/Khrylx/DLow/blob/master/LICENSE).
     * [PyTorch](https://pytorch.org) >= 1.2
     * Tensorboard
     * [smplx](https://pypi.org/project/smplx/)
-    * [vposer](https://pypi.org/project/human-body-prior/)
+    * [vposer](https://github.com/nghorbani/human_body_prior). Version: 1.0
     * others
 * **Note**: All scripts should be run from the root of this repo to avoid path issues.
 Also, please fix some path configs in the code, otherwise errors will occur.
