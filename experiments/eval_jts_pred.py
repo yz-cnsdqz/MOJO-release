@@ -67,7 +67,7 @@ def visualize(data=None, n_seq=60, n_gen=50):
         gt = traj0[None, t_his:]
         gt_multi = traj_gt_arr[idx]
         if data is None:
-            pred = get_prediction_stats(traj, 'dlow', sample_num=cfg.nk, num_seeds=num_seeds, concat_hist=True)
+            pred = get_prediction(traj, 'dlow', sample_num=cfg.nk, num_seeds=num_seeds, concat_hist=True)
             gen_results['jts_pred'].append(pred[0])
         else:
             raise NameError('it is not necessary to save the data again. Check your previous results.'

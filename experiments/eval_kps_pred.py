@@ -199,7 +199,7 @@ if __name__ == '__main__':
                                                  body_repr=body_repr)
     batch_gen.get_rec_list(shuffle_seed=3)
     all_data = batch_gen.get_all_data().detach().cpu().permute(1,0,2).numpy()#[b,t,d]
-    traj_gt_arr = get_multimodal_gt()
+    traj_gt_arr = get_multimodal_gt(all_data, t_his, args.multimodal_threshold)
 
     """models"""
     model_generator = {
