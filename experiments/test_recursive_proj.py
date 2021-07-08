@@ -137,7 +137,6 @@ if __name__ == '__main__':
     parser.add_argument('--num_seeds', type=int, default=1)
     parser.add_argument('--multimodal_threshold', type=float, default=0.5)
     parser.add_argument('--seed', type=int, default=0)
-    parser.add_argument('--gpu_index', type=int, default=0)
     parser.add_argument('--iter', type=int, default=500)
     args = parser.parse_args()
 
