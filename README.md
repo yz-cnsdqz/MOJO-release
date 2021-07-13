@@ -71,7 +71,7 @@ refer to their pages, e.g. [this one](https://github.com/facebookresearch/VideoP
 
 For **AMASS**, we perform canonicalization of motion sequences with our own procedures. The details are in `experiments/utils_canonicalize_amass.py`.
 We find this sequence canonicalization procedure is important. The canonicalized AMASS used in our work can be downloaded [here](https://drive.google.com/file/d/14WTJRZvvmmVs9AlPtSGYMf1VI5haaj9q/view?usp=sharing), which includes the
-random sample names of **ACCAD** and **BMLhandball** used in our experiments about motion realism.
+random sample names of **ACCAD** and **BMLhandball** used in our experiments about motion realism. Note that you may not download our canonicalized AMASS without agreeing with the official AMASS licence.
 
 
 
