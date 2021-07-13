@@ -79,7 +79,7 @@ random sample names of **ACCAD** and **BMLhandball** used in our experiments abo
 For human body modeling, we employ the [SMPL-X](https://smpl-x.is.tue.mpg.de/) parametric body model. You need to follow their license and download.
 Based on SMPL-X, we can use the body joints or a sparse set of body mesh vertices (the body markers) to represent the body.
 * **CMU** It has 41 markers, the corresponding SMPL-X mesh vertex ID can be downloaded [here](https://drive.google.com/file/d/1CcNBZCXA7_Naa0SGlYKCxk_ecnzftbSj/view?usp=sharing).
-* **SSM2** It has 64 markers, the corresponding SMPL-X mesh vertex ID can be downloaded [here](https://drive.google.com/file/d/1ozQuVjXoDLiZ3YGV-7RpauJlunPfcx_d/view?usp=sharing).
+* **SSM2** It has 67 markers, the corresponding SMPL-X mesh vertex ID can be downloaded [here](https://drive.google.com/file/d/1ozQuVjXoDLiZ3YGV-7RpauJlunPfcx_d/view?usp=sharing).
 * **Joints** We used 22 joints. No need to download, but just obtain them from the SMPL-X body model. See details in the code.
 
 Our CVAE model configurations are in `experiments/cfg`. The pre-trained checkpoints can be downloaded [here](https://drive.google.com/drive/folders/1Zger3DVlcBilosYpuMM-Q6tVCCuHDa_h?usp=sharing).
