@@ -16,7 +16,7 @@ This repo contains the official implementation of our paper MOJO:
 ```
 
 ## License
-We employ [__CC BY-NC-SA 4.0__](LICENSE) for the MOJO code, which covers
+We employ [MIT](LICENSE) for the MOJO code, which covers
 ```
 models/fittingop.py
 experiments/utils/batch_gen_amass.py
