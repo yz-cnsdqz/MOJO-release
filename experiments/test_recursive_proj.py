@@ -130,7 +130,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--cfg', default=None)
     parser.add_argument('--testdata', default='ACCAD')
-    parser.add_argument('--gpu_index', type=int, default=0)
 
     ## better not to touch the following setting.
     parser.add_argument('--action', default='all')
